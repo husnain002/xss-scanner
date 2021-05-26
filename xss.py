@@ -1,26 +1,81 @@
+import requests
+from bs4 import BeautifulSoup as bs
+from urllib.parse import urljoin
 import streamlit as st
-from PIL import Image
 
-st.title("Lahore Garrison University")
-st.text("Lahore Garrison University is located in the metropolitan city of Lahore")
-st.header("Digital Forensics Research and Service Centre")
-st.info("This is the first ever Private Digital Forensics and Cyber Security Research centre")
+st.title("XSS SCANNER")
 
-st.subheader("4th Semester")
-#a = 5
-
-#Addition application
-#st.info("Please enter the number between 0 and 9")
-a = st.number_input("Please enter the number between 0 and 9")
-b = st.number_input("Please enter another number between 0 and 9")
-c = a + b
+def get_all_forms(url):
+    """Given a `url`, it returns all forms from the HTML content"""
+    soup = bs(requests.get(url).content, "html.parser")
+    return soup.find_all("form")
 
 
-#a = st.text_input("Please enter the number between 0 and 9")
-#b = st.text_input("Please enter another number between 0 and 9")
-#c = a + b
-st.text("The result after addition is")
-st.write(c)
+def get_form_details(form):
+    """
+    This function extracts all possible useful information about an HTML `form`
+    """
+    details = {}
+    # get the form action (target url)
+    action = form.attrs.get("action").lower()
+    # get the form method (POST, GET, etc.)
+    method = form.attrs.get("method", "get").lower()
+    # get all the input details such as type and name
+    inputs = []
+    for input_tag in form.find_all("input"):
+        input_type = input_tag.attrs.get("type", "text")
+        input_name = input_tag.attrs.get("name")
+        inputs.append({"type": input_type, "name": input_name})
+    # put everything to the resulting dictionary
+    details["action"] = action
+    details["method"] = method
+    details["inputs"] = inputs
+    return details
 
-image = Image.open('Type_Error.png')
-st.image(image)
+
+def submit_form(form_details, url, value):
+    
+    
+    target_url = urljoin(url, form_details["action"])
+    
+    inputs = form_details["inputs"]
+    data = {}
+    for input in inputs:
+        
+        if input["type"] == "text" or input["type"] == "search":
+            input["value"] = value
+        input_name = input.get("name")
+        input_value = input.get("value")
+        if input_name and input_value:
+           
+            data[input_name] = input_value
+
+    if form_details["method"] == "post":
+        return requests.post(target_url, data=data)
+    else:
+       
+        return requests.get(target_url, params=data)
+
+
+def scan_xss(url):
+   
+    forms = get_all_forms(url)
+    st.write(f"[+] Detected {len(forms)} forms on {url}.")
+   
+    js_script = "javascript:alert(1) , <img src=1 href=1 onerror=javascript:alert(1)></img> , <script>alert(1);</script> " 
+   
+    is_vulnerable = False
+    
+    for form in forms:
+        form_details = get_form_details(form)
+        content = submit_form(form_details, url, js_script).content.decode()
+        if js_script in content:
+            st.write(f"[+] XSS Detected on {url}")
+            st.write(f"[*] Form details:")
+            st.write(form_details)
+            is_vulnerable = True
+            
+    return is_vulnerable
+
+url = st.text_input("Enter Url ")
+st.write(scan_xss(url))
