@@ -5,7 +5,7 @@ import streamlit as st
 
 st.title("XSS SCANNER")
 
- selected_box = st.sidebar.selectbox(
+selected_box = st.sidebar.selectbox(
     'Choose one of the following',
     ('Welcome','Image Processing', 'Video', 'Face Detection', 'Feature Detection', 'Object Detection')
     )
