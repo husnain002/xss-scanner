@@ -1,1 +1,1 @@
-web: sh setup.sh && streamlit run taseer_test_app.py
+web: sh setup.sh && streamlit run xss.py
