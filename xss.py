@@ -5,6 +5,12 @@ import streamlit as st
 
 st.title("XSS SCANNER")
 
+ selected_box = st.sidebar.selectbox(
+    'Choose one of the following',
+    ('Welcome','Image Processing', 'Video', 'Face Detection', 'Feature Detection', 'Object Detection')
+    )
+
+
 def get_all_forms(url):
     """Given a `url`, it returns all forms from the HTML content"""
     soup = bs(requests.get(url).content, "html.parser")
