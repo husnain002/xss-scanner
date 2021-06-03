@@ -2,9 +2,12 @@ import requests
 from bs4 import BeautifulSoup as bs
 from urllib.parse import urljoin
 import streamlit as st
+from PIL import Image
 
+
+img=Image.open("xss.png")
+st.image(img,width=700)
 st.title("XSS SCANNER")
-
 
 def get_all_forms(url):
     """Given a `url`, it returns all forms from the HTML content"""
@@ -78,5 +81,10 @@ def scan_xss(url):
             
     return is_vulnerable
 
-url = st.text_input("Enter Url ")
+url = st.text_input("Enter Url here || note ignore error it's an feature ")
 st.write(scan_xss(url))
+
+
+
+
+
