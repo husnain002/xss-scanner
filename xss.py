@@ -85,7 +85,6 @@ if url == empty :
 else:
     st.write(scan_xss(url))   
 
-st.text("Enter these URL's for Practice purpose.\n \n1: https://xss-game.appspot.com/level1/frame \n2: http://sudo.co.il/xss/level0.php \n3: http://sudo.co.il/xss/level1.php ")
 
 
 
