@@ -9,6 +9,7 @@ from PIL import Image
 img=Image.open("xss.png")
 st.image(img,width=700)
 st.title("XSS SCANNER")
+st.text("Cross-site scripting (XSS) is a type of security vulnerability typically found in \nweb applications. XSS attacks enable attackers to inject client-side scripts into \nweb pages viewed by other users.")
 def get_all_forms(url):
     soup = bs(requests.get(url).content, "html.parser")
     return soup.find_all("form")
@@ -63,7 +64,7 @@ def scan_xss(url):
     forms = get_all_forms(url)
     st.write(f"[+] Detected {len(forms)} forms on {url}.")
    
-    js_script = "javascript:alert(1) , <img src=1 href=1 onerror=javascript:alert(1)></img> , <script>alert(1);</script> " 
+    js_script = "javascript:alert(1) , <img src=1 href=1 onerror=javascript:alert(1)></img> , <script>alert(1);</script> , <script\x20type=text/javascript>javascript:alert(1);</script>  " 
    
     is_vulnerable = False
     
@@ -81,11 +82,10 @@ def scan_xss(url):
 empty=""
 url = st.text_input("Enter Url here ")
 if url == empty :
-    st.text("Enter these URL's for Practice purpose.\n \n1: https://xss-game.appspot.com/level1/frame \n2: http://sudo.co.il/xss/level0.php \n3: http://sudo.co.il/xss/level1.php ")
+    print("")
 else:
     st.write(scan_xss(url))   
-
-
+st.text("Enter these URL's for Practice purpose.\n \n1: https://xss-game.appspot.com/level1/frame \n2: http://sudo.co.il/xss/level0.php \n3: http://sudo.co.il/xss/level1.php ")
 
 
 
