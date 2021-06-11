@@ -64,7 +64,7 @@ def scan_xss(url):
     forms = get_all_forms(url)
     st.write(f"[+] Detected {len(forms)} forms on {url}.")
    
-    js_script = "javascript:alert(1) , <img src=1 href=1 onerror=javascript:alert(1)></img> , <script>alert(1);</script> , <script\x20type=text/javascript>javascript:alert(1);</script>  " 
+    js_script = "javascript:alert("hacked by husnain") , <img src=1 href=1 onerror=javascript:alert("hacked by husnain")></img> , <script>alert("hacked by husnain");</script> , <script\x20type=text/javascript>javascript:alert("hacked by husnain");</script>  " 
    
     is_vulnerable = False
     
@@ -85,7 +85,7 @@ if url == empty :
     print("")
 else:
     st.write(scan_xss(url))   
-st.text("Enter these URL's for Practice purpose.\n \n1: https://xss-game.appspot.com/level1/frame \n2: http://sudo.co.il/xss/level0.php \n3: http://sudo.co.il/xss/level1.php ")
+st.text("Enter these URL's for Practice purpose.\n 1:https://cashbin.co.uk/search.php?search= \n2: https://xss-game.appspot.com/level1/frame \n3: http://sudo.co.il/xss/level0.php \n4: http://sudo.co.il/xss/level1.php ")
 
 st.text(" \n\n\nProject by husnain shahid 🐱‍💻🐱‍🏍")
 
