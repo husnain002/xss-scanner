@@ -85,7 +85,7 @@ if url == empty :
     print("")
 else:
     st.write(scan_xss(url))   
-st.text("Enter these URL's for Practice purpose.\n 1:https://cashbin.co.uk/search.php?search= \n2: https://xss-game.appspot.com/level1/frame \n3: http://sudo.co.il/xss/level0.php \n4: http://sudo.co.il/xss/level1.php ")
+st.text("Enter these URL's for Practice purpose.\n1: https://cashbin.co.uk/search.php?search= \n2: https://xss-game.appspot.com/level1/frame \n3: http://sudo.co.il/xss/level0.php \n4: http://sudo.co.il/xss/level1.php ")
 
 st.text(" \n\n\nProject by husnain shahid 🐱‍💻🐱‍🏍")
 
